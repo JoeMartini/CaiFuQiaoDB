@@ -1,41 +1,75 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14D87p" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="Commission" syncable="YES"/>
+    <entity name="Communcation" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+    </entity>
     <entity name="Contract" syncable="YES">
         <attribute name="effectiveDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="serialNumber" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="state" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="contractingParties" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contract_ContractingParties" inverseName="contract" inverseEntity="Contract_ContractingParties" syncable="YES"/>
         <relationship name="relatedProduct" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="relatedContracts" inverseEntity="Product" syncable="YES"/>
     </entity>
     <entity name="Contract_ContractingParties" syncable="YES">
-        <attribute name="signingState" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="signingStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <relationship name="contract" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contract" inverseName="contractingParties" inverseEntity="Contract" syncable="YES"/>
         <relationship name="signer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
     </entity>
     <entity name="Express" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="institution" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Institution_Express" inverseName="expresses" inverseEntity="Institution_Express" syncable="YES"/>
+        <relationship name="receiver" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+        <relationship name="sender" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="File" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="path" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="FinancialStatement" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="balance" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialStatement_Balance" inverseName="statement" inverseEntity="FinancialStatement_Balance" syncable="YES"/>
+        <relationship name="cashFlow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialStatement_CashFlow" inverseName="statement" inverseEntity="FinancialStatement_CashFlow" syncable="YES"/>
+        <relationship name="income" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialStatement_Income" inverseName="statement" inverseEntity="FinancialStatement_Income" syncable="YES"/>
+    </entity>
+    <entity name="FinancialStatement_Balance" syncable="YES">
+        <relationship name="statement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialStatement" inverseName="balance" inverseEntity="FinancialStatement" syncable="YES"/>
+    </entity>
+    <entity name="FinancialStatement_CashFlow" syncable="YES">
+        <relationship name="statement" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="FinancialStatement" inverseName="cashFlow" inverseEntity="FinancialStatement" syncable="YES"/>
+    </entity>
+    <entity name="FinancialStatement_Income" syncable="YES">
+        <relationship name="statement" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="FinancialStatement" inverseName="income" inverseEntity="FinancialStatement" syncable="YES"/>
     </entity>
     <entity name="Institution" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
         <attribute name="legalRepresentative" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="financialStatement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialStatement" syncable="YES"/>
     </entity>
     <entity name="Institution_Advisor" syncable="YES">
+        <relationship name="financialAdvisers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="User_External_FinancialAdvisor" inverseName="workingInstitution" inverseEntity="User_External_FinancialAdvisor" syncable="YES"/>
         <relationship name="institution" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Institution" syncable="YES"/>
     </entity>
     <entity name="Institution_Channel" syncable="YES">
         <relationship name="institution" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Institution" syncable="YES"/>
+        <relationship name="sellingProducts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="sellingChannels" inverseEntity="Product" syncable="YES"/>
+    </entity>
+    <entity name="Institution_Express" syncable="YES">
+        <attribute name="inquiryAPI" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="expresses" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Express" inverseName="institution" inverseEntity="Express" syncable="YES"/>
     </entity>
     <entity name="Institution_Issuer" syncable="YES">
+        <attribute name="contact" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="institution" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Institution" syncable="YES"/>
         <relationship name="products" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="Product" inverseName="issuer" inverseEntity="Product" syncable="YES"/>
-    </entity>
-    <entity name="Inventory" syncable="YES">
-        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
-        <relationship name="ownerProduct" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" syncable="YES"/>
     </entity>
     <entity name="OperationLog" syncable="YES">
         <attribute name="operationTime" optional="YES" attributeType="Date" syncable="YES"/>
@@ -47,21 +81,25 @@
         <relationship name="relatedFincalAdvisor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User_External_FinancialAdvisor" syncable="YES"/>
         <relationship name="relatedFincalChannel" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User_External_FinancialChannel" syncable="YES"/>
         <relationship name="relatedProduct" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" syncable="YES"/>
+        <relationship name="relatedTransactions" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Transaction" inverseName="relatedOrder" inverseEntity="Transaction" syncable="YES"/>
         <relationship name="upstreamRTBBuyinOrder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RTBOrder_BuyinOrder" syncable="YES"/>
         <relationship name="upstreamRTBSellingOrder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RTBOrder_SellingOrder" syncable="YES"/>
     </entity>
     <entity name="Product" syncable="YES">
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="attachments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="File" syncable="YES"/>
+        <relationship name="inventory" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductInformation_Inventory" inverseName="ownerProduct" inverseEntity="ProductInformation_Inventory" syncable="YES"/>
         <relationship name="issuer" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Institution_Issuer" inverseName="products" inverseEntity="Institution_Issuer" syncable="YES"/>
+        <relationship name="pricingStrategy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ProductInformation_PricingStrategy" inverseName="product" inverseEntity="ProductInformation_PricingStrategy" syncable="YES"/>
         <relationship name="relatedContracts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Contract" inverseName="relatedProduct" inverseEntity="Contract" syncable="YES"/>
-        <relationship name="sellingChannels" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Institution_Channel" syncable="YES"/>
+        <relationship name="sellingChannels" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Institution_Channel" inverseName="sellingProducts" inverseEntity="Institution_Channel" syncable="YES"/>
     </entity>
     <entity name="Product_FixedIncome" syncable="YES">
         <attribute name="yield" optional="YES" attributeType="Float" defaultValueString="0.0" syncable="YES"/>
         <relationship name="product" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" syncable="YES"/>
     </entity>
-    <entity name="Product_FixedIncome_InvestmentPlan" syncable="YES">
+    <entity name="Product_FixedIncome_InvestmentManagement" syncable="YES">
         <relationship name="fixedIncome" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Product_FixedIncome" syncable="YES"/>
     </entity>
     <entity name="Product_FixedIncome_P2P" syncable="YES">
@@ -79,11 +117,38 @@
         <relationship name="fixedIncome" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product_FixedIncome" syncable="YES"/>
     </entity>
     <entity name="Product_FloatingIncome" syncable="YES"/>
-    <entity name="Product_FloatingIncome_Fund" syncable="YES"/>
+    <entity name="Product_FloatingIncome_PrivateFund" syncable="YES"/>
+    <entity name="Product_FloatingIncome_PublicFund" syncable="YES"/>
+    <entity name="ProductInformation_Inventory" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="ownerProduct" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Product" inverseName="inventory" inverseEntity="Product" syncable="YES"/>
+    </entity>
+    <entity name="ProductInformation_PricingStrategy" syncable="YES">
+        <attribute name="strategy" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="product" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Product" inverseName="pricingStrategy" inverseEntity="Product" syncable="YES"/>
+    </entity>
     <entity name="ProductInformation_RiskControlInfo" syncable="YES"/>
-    <entity name="Range" syncable="YES"/>
+    <entity name="Range" syncable="YES">
+        <attribute name="lowerLimit" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+        <attribute name="upperLimit" optional="YES" attributeType="Double" defaultValueString="0" syncable="YES"/>
+    </entity>
+    <entity name="Receipt" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="attachments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="File" syncable="YES"/>
+        <relationship name="relatedTransaction" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="Transaction" syncable="YES"/>
+    </entity>
     <entity name="RTBOrder_BuyinOrder" syncable="YES"/>
     <entity name="RTBOrder_SellingOrder" syncable="YES"/>
+    <entity name="Transaction" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="accountPayee" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInformation_BankInfo" syncable="YES"/>
+        <relationship name="payee" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+        <relationship name="relatedOrder" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Order" inverseName="relatedTransactions" inverseEntity="Order" syncable="YES"/>
+        <relationship name="relatedReceipts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Receipt" syncable="YES"/>
+        <relationship name="remitter" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+        <relationship name="remittingAccount" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInformation_BankInfo" syncable="YES"/>
+    </entity>
     <entity name="User" syncable="YES">
         <attribute name="createTime" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="id" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
@@ -105,14 +170,20 @@
         <relationship name="admin" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="User_Admin" syncable="YES"/>
     </entity>
     <entity name="User_External" syncable="YES">
+        <attribute name="nikeName" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="registrationTime" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="financialStatement" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="FinancialStatement" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" syncable="YES"/>
+        <relationship name="verificationInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInformation_VerificationInfo" inverseName="externalUser" inverseEntity="UserInformation_VerificationInfo" syncable="YES"/>
     </entity>
     <entity name="User_External_Customer" syncable="YES">
         <relationship name="external" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User_External" syncable="YES"/>
+        <relationship name="financialAdvisor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User_External_FinancialAdvisor" inverseName="customers" inverseEntity="User_External_FinancialAdvisor" syncable="YES"/>
     </entity>
     <entity name="User_External_FinancialAdvisor" syncable="YES">
+        <relationship name="customers" optional="YES" toMany="YES" deletionRule="No Action" destinationEntity="User_External_Customer" inverseName="financialAdvisor" inverseEntity="User_External_Customer" syncable="YES"/>
         <relationship name="external" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="User_External" syncable="YES"/>
+        <relationship name="workingInstitution" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Institution_Advisor" inverseName="financialAdvisers" inverseEntity="Institution_Advisor" syncable="YES"/>
     </entity>
     <entity name="User_External_FinancialChannel" syncable="YES">
         <relationship name="external" optional="YES" maxCount="1" deletionRule="No Action" destinationEntity="User_External" syncable="YES"/>
@@ -135,40 +206,59 @@
     <entity name="UserInformation_ContactInfo_Address" syncable="YES">
         <relationship name="ownerContactInfo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserInformation_ContactInfo" inverseName="addressInfo" inverseEntity="UserInformation_ContactInfo" syncable="YES"/>
     </entity>
+    <entity name="UserInformation_VerificationInfo" syncable="YES">
+        <attribute name="idcardNumber" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="realName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="verificationStatus" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <relationship name="externalUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User_External" inverseName="verificationInfo" inverseEntity="User_External" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="Contract" positionX="36" positionY="81" width="128" height="148"/>
+        <element name="Contract" positionX="36" positionY="81" width="128" height="28"/>
         <element name="Contract_ContractingParties" positionX="45" positionY="153" width="128" height="28"/>
-        <element name="Express" positionX="-9" positionY="36" width="128" height="60"/>
+        <element name="Express" positionX="-9" positionY="36" width="128" height="28"/>
         <element name="Institution" positionX="-63" positionY="-18" width="128" height="28"/>
-        <element name="Institution_Advisor" positionX="-9" positionY="63" width="128" height="58"/>
-        <element name="Institution_Channel" positionX="18" positionY="90" width="128" height="58"/>
-        <element name="Institution_Issuer" positionX="9" positionY="81" width="128" height="75"/>
-        <element name="Inventory" positionX="36" positionY="81" width="128" height="73"/>
+        <element name="Institution_Advisor" positionX="-9" positionY="63" width="128" height="28"/>
+        <element name="Institution_Channel" positionX="18" positionY="90" width="128" height="75"/>
+        <element name="Institution_Issuer" positionX="9" positionY="81" width="128" height="28"/>
+        <element name="ProductInformation_Inventory" positionX="36" positionY="81" width="128" height="28"/>
         <element name="OperationLog" positionX="36" positionY="99" width="128" height="73"/>
-        <element name="Order" positionX="0" positionY="45" width="128" height="148"/>
-        <element name="Product" positionX="-54" positionY="-9" width="128" height="118"/>
+        <element name="Order" positionX="0" positionY="45" width="128" height="28"/>
+        <element name="Product" positionX="-54" positionY="-9" width="128" height="28"/>
         <element name="Product_FixedIncome" positionX="9" positionY="81" width="128" height="28"/>
-        <element name="Product_FixedIncome_InvestmentPlan" positionX="0" positionY="72" width="128" height="58"/>
+        <element name="Product_FixedIncome_InvestmentManagement" positionX="0" positionY="72" width="128" height="58"/>
         <element name="Product_FixedIncome_P2P" positionX="36" positionY="144" width="128" height="58"/>
         <element name="Product_FixedIncome_Trust" positionX="18" positionY="63" width="128" height="178"/>
         <element name="Product_FloatingIncome" positionX="18" positionY="90" width="128" height="45"/>
-        <element name="Product_FloatingIncome_Fund" positionX="27" positionY="72" width="128" height="45"/>
+        <element name="Product_FloatingIncome_PublicFund" positionX="27" positionY="72" width="128" height="43"/>
         <element name="ProductInformation_RiskControlInfo" positionX="-9" positionY="99" width="128" height="45"/>
-        <element name="Range" positionX="27" positionY="99" width="128" height="45"/>
+        <element name="Range" positionX="27" positionY="99" width="128" height="75"/>
         <element name="RTBOrder_BuyinOrder" positionX="9" positionY="54" width="128" height="45"/>
         <element name="RTBOrder_SellingOrder" positionX="0" positionY="45" width="128" height="45"/>
-        <element name="User" positionX="-9" positionY="27" width="128" height="133"/>
+        <element name="User" positionX="-9" positionY="27" width="128" height="28"/>
         <element name="User_Admin" positionX="27" positionY="72" width="128" height="58"/>
         <element name="User_Admin_ChannelManager" positionX="18" positionY="63" width="128" height="58"/>
         <element name="User_Admin_FinancialManager" positionX="9" positionY="54" width="128" height="58"/>
         <element name="User_Admin_ProductManager" positionX="0" positionY="45" width="128" height="58"/>
-        <element name="User_External" positionX="9" positionY="54" width="128" height="73"/>
-        <element name="User_External_Customer" positionX="18" positionY="63" width="128" height="58"/>
-        <element name="User_External_FinancialAdvisor" positionX="-18" positionY="27" width="128" height="58"/>
+        <element name="User_External" positionX="9" positionY="54" width="128" height="28"/>
+        <element name="User_External_Customer" positionX="18" positionY="63" width="128" height="28"/>
+        <element name="User_External_FinancialAdvisor" positionX="-18" positionY="27" width="128" height="28"/>
         <element name="User_External_FinancialChannel" positionX="-36" positionY="9" width="128" height="58"/>
         <element name="UserInformation_BankInfo" positionX="-9" positionY="36" width="128" height="88"/>
         <element name="UserInformation_BaseInfo" positionX="36" positionY="81" width="128" height="73"/>
         <element name="UserInformation_ContactInfo" positionX="45" positionY="90" width="128" height="103"/>
         <element name="UserInformation_ContactInfo_Address" positionX="0" positionY="45" width="128" height="58"/>
+        <element name="Commission" positionX="-9" positionY="99" width="128" height="30"/>
+        <element name="Institution_Express" positionX="0" positionY="108" width="128" height="28"/>
+        <element name="Product_FloatingIncome_PrivateFund" positionX="18" positionY="117" width="128" height="45"/>
+        <element name="UserInformation_VerificationInfo" positionX="27" positionY="126" width="128" height="30"/>
+        <element name="FinancialStatement_CashFlow" positionX="36" positionY="135" width="128" height="30"/>
+        <element name="FinancialStatement" positionX="45" positionY="144" width="128" height="30"/>
+        <element name="FinancialStatement_Balance" positionX="54" positionY="153" width="128" height="30"/>
+        <element name="FinancialStatement_Income" positionX="0" positionY="99" width="128" height="30"/>
+        <element name="ProductInformation_PricingStrategy" positionX="9" positionY="108" width="128" height="30"/>
+        <element name="Receipt" positionX="18" positionY="117" width="128" height="30"/>
+        <element name="Communcation" positionX="27" positionY="126" width="128" height="30"/>
+        <element name="Transaction" positionX="36" positionY="135" width="128" height="30"/>
+        <element name="File" positionX="45" positionY="144" width="128" height="30"/>
     </elements>
 </model>
