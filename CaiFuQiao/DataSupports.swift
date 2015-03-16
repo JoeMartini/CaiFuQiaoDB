@@ -16,6 +16,10 @@
 
 import Foundation
 
+/* 
+---------- Entity Statuses ----------
+*/
+
 // 合同签署状态
 enum ContractStatus {
     /*
@@ -40,6 +44,117 @@ enum ContractingPartySigningStatus {
     case signed
 }
 
+// 卖单状态
+enum RTBSellingOrderStatus {
+    /*
+    0. 待创建
+    1. 待提交
+    2. 待审核
+    3. 待匹配
+    4. 失效
+    */
+}
+
+// 买单状态
+enum RTBBuyinOrderStatus {
+    /*
+    0. 待创建
+    1. 待提交
+    2. 待审核
+    3. 待匹配
+    4. 失效
+    */
+}
+
+// 订单状态
+enum OrderStatus {
+    /*
+    0. 待创建
+    1. 待提交
+    2. 待确认
+    3. 待
+    */
+}
+
+// 快递状态
+enum ExpressStatus {
+    /*
+    0. 待寄出
+    1. 待签收
+    2. 已签收
+    */
+    
+}
+
+// 产品状态
+enum ProductStatus {
+    /*
+    0. 带创建
+    1. 待上架
+    2.
+    */
+}
+
+// 佣金状态
+enum CommissionStatus {
+    /*
+    0. 待结算
+    1. 待提取
+    2. 待确认
+    3. 已提取
+    */
+}
+
+// 打款状态
+enum TransactionStatus {
+    /*
+    0. 待创建
+    1. 待提交凭证
+    2. 待确认到账
+    3. 已完成
+    */
+}
+
+// 客户状态
+enum CustomerStatus {
+    /*
+    0. 待创建
+    
+    */
+}
+
+// 凭证状态
+enum ReceiptStatus {
+    /*
+    0. 带创建
+    1. 待提交
+    2. 待审核
+    3. 已审核
+    */
+    case waitingToBeCreated
+    case waitingToBeSubmited
+    case waitingToBeVerified
+    case verified
+}
+
+// 注册用户认证状态
+enum UserInformationVerificationStatus {
+    /*
+    0. 待认证
+    1. 实名认证
+    2. 机构认证
+    3. V
+    */
+    case waitingToVerify
+    case realIdentityVerified
+    case workingInstitutionVerified
+    case trustworthyVerified
+}
+
+
+/*
+---------- Entity Types ----------
+*/
 // 缔约方种类
 enum ContractingPartyType {
     /*
@@ -104,85 +219,6 @@ enum PaymentDue {
     case onRaised
 }
 
-// 卖单状态
-enum RTBSellingOrderStatus {
-    /*
-    0. 待创建
-    1. 待提交
-    2. 待审核
-    3. 待匹配
-    4. 失效
-    */
-}
-
-// 买单状态
-enum RTBBuyinOrderStatus {
-    /*
-    0. 待创建
-    1. 待提交
-    2. 待审核
-    3. 待匹配
-    4. 失效
-    */
-}
-
-// 订单状态
-enum OrderStatus {
-    /*
-    0. 待创建
-    1. 待提交
-    2. 待确认
-    3. 待
-    */
-}
-
-// 快递状态
-enum ExpressStatus {
-    /*
-    0. 待寄出
-    1. 待签收
-    2. 已签收
-    */
-    
-}
-
-// 产品状态
-enum ProductStatus {
-    
-}
-
-// 佣金状态
-// 打款状态
-// 客户状态
-
-// 凭证状态
-enum ReceiptStatus {
-    /*
-    0. 带创建
-    1. 待提交
-    2. 待审核
-    3. 已审核
-    */
-    case waitingToBeCreated
-    case waitingToBeSubmited
-    case waitingToBeVerified
-    case verified
-}
-
-// 注册用户认证状态
-enum UserInformationVerificationStatus {
-    /*
-    0. 待认证
-    1. 实名认证
-    2. 机构认证
-    3. V
-    */
-    case waitingToVerify
-    case realIdentityVerified
-    case workingInstitutionVerified
-    case trustworthyVerified
-}
-
 // 定价策略类型
 enum pricingStrategyType {
     /*
@@ -194,9 +230,42 @@ enum pricingStrategyType {
     */
 }
 
-//
-//
-//
+// RTB委托策略类型
+enum RTBDelegationStategyType {
+    /*
+    首先关注市价（浮动收益），其次关注佣金？
+    0. 最高佣金成交
+    1. 卖价高于买价成交
+    2. 买卖差价定额区间成交
+    3. 买卖差价比率区间成交
+    */
+}
+
+/*
+---------- Other ----------
+*/
+// 区间计量单位
+enum UnitsInRange {
+    /*
+    0. 元
+    1. 万元
+    2. 亿元
+    3. ％
+    4.
+    
+    */
+}
+
+// 认购量子 (购买增幅)
+enum QutantalAmount {
+    /*
+    0. 1万元
+    1. 10万元
+    */
+    case tenThousand
+    case oneHundredThousand
+}
+
 //
 //
 //
