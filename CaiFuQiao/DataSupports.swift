@@ -256,8 +256,8 @@ enum UnitsInRange {
     */
 }
 
-// 认购量子 (购买增幅)
-enum QutantalAmount {
+// 认购阶梯
+enum SubscribeStep {
     /*
     0. 1万元
     1. 10万元
